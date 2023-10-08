@@ -1,24 +1,85 @@
-import { Injector, Logger, webpack } from "replugged";
+import { Injector } from "replugged";
+import { ApplicationCommandOptionType } from "replugged/dist/types";
 
 const inject = new Injector();
-const logger = Logger.plugin("PluginTemplate");
 
-export async function start(): Promise<void> {
-  const typingMod = await webpack.waitForModule<{
-    startTyping: (channelId: string) => void;
-  }>(webpack.filters.byProps("startTyping"));
-  const getChannelMod = await webpack.waitForModule<{
-    getChannel: (id: string) => {
-      name: string;
-    };
-  }>(webpack.filters.byProps("getChannel"));
+const LINK_BOUNDARIES = " ()[]"
 
-  if (typingMod && getChannelMod) {
-    inject.instead(typingMod, "startTyping", ([channel]) => {
-      const channelObj = getChannelMod.getChannel(channel);
-      logger.log(`Typing prevented! Channel: #${channelObj?.name ?? "unknown"} (${channel}).`);
-    });
-  }
+export function start(): void {
+  inject.utils.registerSlashCommand({
+    name: "alt",
+    description: "Send a message with aLtErNaTiNg CaPs",
+    options: [
+      {
+        type: ApplicationCommandOptionType.String,
+        name: "message",
+        description: "The message you want to alt",
+        required: true,
+      },
+    ],
+    executor: (i) => {
+      const inp = i.getValue("message")
+
+      let isInLink = false,
+          shouldCap = false
+
+      return {
+        result: inp.split("").map((v, i) => {
+            if (LINK_BOUNDARIES.includes(v)) {
+              let start = inp.slice(i + 1)
+              isInLink = start.startsWith("http://") || start.startsWith("https://")
+              if (isInLink) {
+                shouldCap = false
+              }
+
+              return v
+            }
+    
+            if (isInLink) {
+              return v
+            }
+    
+            let genOG =  String.prototype.toUpperCase,
+                genNew = String.prototype.toLowerCase
+    
+            if (shouldCap) {
+                genOG = String.prototype.toLowerCase
+                genNew = String.prototype.toUpperCase
+            }
+    
+            let vOg = genOG.call(v)
+            let vNew = genNew.call(v)
+            
+            // Don't skip a cap for syntax stuff like [ or *
+            if (vOg != vNew) {
+                shouldCap = !shouldCap
+            }
+            
+            return vNew
+        }).join(""),
+        send: true
+      }
+    }
+  })
+
+  inject.utils.registerSlashCommand({
+    name: "annoy",
+    description: "Send a message with individual spoiler ||t||||a||||g||||s||",
+    options: [
+      {
+        type: ApplicationCommandOptionType.String,
+        name: "message",
+        description: "The message you want to spoiler. Note: md & links don't work <3",
+        required: true,
+      },
+    ],
+    executor: (i) => {
+      return {
+        result: i.getValue("message").split("").map(v => `||${v}||`).join(""),
+        send: true
+      }
+    }
+  })
 }
 
 export function stop(): void {

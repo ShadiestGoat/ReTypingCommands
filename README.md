@@ -1,11 +1,6 @@
-# Replugged plugin template
+# Typing Commands
 
-See the [plugin development guide](https://guide.replugged.dev/docs/plugins/getting-started) for
-more information on using this template.
+> [!IMPORTANT]
+> This plugin is not stable on replugged. Until [v4.7.0](https://github.com/replugged-org/replugged/milestone/10) releases, this will not work using install commands. To make this work, you have to manually install it by cloning & building yourself.
 
-# License
-
-The [plugin template](https://github.com/replugged-org/plugin-template) is licensed under the
-[MIT](https://opensource.org/license/mit/) license. However, addons using this template are not
-necessarily licensed under MIT. Developers are encouraged to add a license file to their repository,
-but if none exists, the repository should be considered as unlicensed.
+These are commands that are useful for typing & sending messages.

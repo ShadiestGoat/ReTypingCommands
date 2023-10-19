@@ -1,5 +1,4 @@
 import { Injector } from "replugged";
-import { ApplicationCommandOptionType } from "replugged/dist/types";
 
 const inject = new Injector();
 
@@ -11,9 +10,9 @@ export function start(): void {
     description: "Send a message with aLtErNaTiNg CaPs",
     options: [
       {
-        type: ApplicationCommandOptionType.String,
+        type: 3,
         name: "message",
-        description: "The message you want to alt",
+        description: "The message you want to aLt CaSe",
         required: true,
       },
     ],
@@ -67,12 +66,12 @@ export function start(): void {
 
   inject.utils.registerSlashCommand({
     name: "annoy",
-    description: "Send a message with individual spoiler ||t||||a||||g||||s||",
+    description: "Send a message with individual spoiler tags",
     options: [
       {
-        type: ApplicationCommandOptionType.String,
+        type: 3,
         name: "message",
-        description: "The message you want to spoiler. Note: md & links don't work <3",
+        description: "The message you want to spoiler. Note: md breaks!",
         required: true,
       },
     ],

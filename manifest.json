@@ -9,8 +9,8 @@
   },
   "version": "1.0.5",
   "updater": {
-    "type": "github",
-    "id": "ShadiestGoat/ReTypingCommands"
+    "type": "store",
+    "id": "eu.shadygoat.TypingUtils"
   },
   "license": "MIT",
   "type": "replugged-plugin",

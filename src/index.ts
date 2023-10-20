@@ -26,14 +26,13 @@ export function start(): void {
         result: inp
           .split("")
           .map((v, i) => {
-            if (LINK_BOUNDARIES.includes(v)) {
+            if (LINK_BOUNDARIES.includes(v) || i == 0) {
               let start = inp.slice(i + 1);
               isInLink = start.startsWith("http://") || start.startsWith("https://");
               if (isInLink) {
                 shouldCap = false;
+                return v;
               }
-
-              return v;
             }
 
             if (isInLink) {

@@ -39,23 +39,16 @@ export function start(): void {
               return v;
             }
 
-            let genOG = String.prototype.toUpperCase,
-              genNew = String.prototype.toLowerCase;
+            // More consistent & understandable case alt here, thanks @asportnoy
+            const upper = v.toUpperCase(),
+                  lower = v.toLowerCase();
 
-            if (shouldCap) {
-              genOG = String.prototype.toLowerCase;
-              genNew = String.prototype.toUpperCase;
-            }
-
-            let vOg = genOG.call(v);
-            let vNew = genNew.call(v);
-
-            // Don't skip a cap for syntax stuff like [ or *
-            if (vOg != vNew) {
+            if (upper != lower) {
               shouldCap = !shouldCap;
+              return !shouldCap ? upper : lower;
             }
 
-            return vNew;
+            return v;
           })
           .join(""),
         send: true,

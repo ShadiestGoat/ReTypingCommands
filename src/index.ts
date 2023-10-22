@@ -39,7 +39,7 @@ export function start(): void {
               return v;
             }
 
-            // More consistent & understandable case alt here, thanks @asportnoy
+            // More consistent & understandable case alt here, thanks @12944qwerty
             const upper = v.toUpperCase(),
                   lower = v.toLowerCase();
 
